@@ -1,0 +1,66 @@
+# RT-Thread building script for drivers
+
+from building import *
+import rtconfig
+
+cwd = GetCurrentDir()
+src = []
+CPPPATH = []
+
+# 添加头文件路径
+CPPPATH += [cwd]
+CPPPATH += [cwd + '/include']
+CPPPATH += [cwd + '/include/config']
+
+# 基础驱动文件（必需的）
+src += ['board.c']
+src += ['drv_common.c']
+src += ['drv_clk.c']
+
+# 根据配置添加其他驱动（示例）
+if GetDepend(['RT_USING_PIN']):
+    src += ['drv_gpio.c']
+
+if GetDepend(['RT_USING_SERIAL']):
+    src += ['drv_usart.c']
+
+if GetDepend(['RT_USING_SPI']):
+    src += ['drv_spi.c']
+
+if GetDepend(['RT_USING_I2C']):
+    src += ['drv_soft_i2c.c']
+
+if GetDepend(['RT_USING_ADC']):
+    src += ['drv_adc.c']
+
+if GetDepend(['RT_USING_PWM']):
+    src += ['drv_pwm.c']
+
+if GetDepend(['RT_USING_CAN']):
+    src += ['drv_can.c']
+
+if GetDepend(['RT_USING_RTC']):
+    src += ['drv_rtc.c']
+
+if GetDepend(['RT_USING_WDT']):
+    src += ['drv_wdt.c']
+
+if GetDepend(['RT_USING_SDIO']):
+    src += ['drv_sdio.c']
+
+if GetDepend(['RT_USING_USB_DEVICE']):
+    src += ['drv_usbd.c']
+
+if GetDepend(['RT_USING_USB_HOST']):
+    src += ['drv_usbh.c']
+
+# 添加更多驱动...
+# if GetDepend(['RT_USING_HWTIMER']):
+#     src += ['drv_hwtimer.c']
+
+# if GetDepend(['RT_USING_DAC']):
+#     src += ['drv_dac.c']
+
+group = DefineGroup('Drivers', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

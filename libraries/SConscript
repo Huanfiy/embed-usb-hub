@@ -1,0 +1,26 @@
+# RT-Thread building script for libraries
+
+from building import *
+import rtconfig
+
+cwd = GetCurrentDir()
+src = []
+CPPPATH = []
+
+# CMSIS 核心文件
+CPPPATH += [cwd + '/CMSIS/Include']
+CPPPATH += [cwd + '/CMSIS/Device/ST/STM32F4xx/Include']
+
+# STM32F4 HAL 驱动
+CPPPATH += [cwd + '/STM32F4xx_HAL_Driver/Inc']
+
+# 添加启动文件
+src += ['CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f446xx.S',
+        'CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c']
+
+# HAL 驱动源文件（根据需要添加）
+src += Glob('STM32F4xx_HAL_Driver/Src/*.c')
+
+group = DefineGroup('Libraries', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')
