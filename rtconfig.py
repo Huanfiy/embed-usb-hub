@@ -112,5 +112,5 @@ AFLAGS = ' '.join(AFLAGS)
 LFLAGS = ' '.join(LFLAGS)
 
 POST_ACTION = 'arm-none-eabi-objcopy -O binary $TARGET build/rt-thread.bin\n' + \
-              'arm-none-eabi-size --format=berkeley $TARGET\n' + \
-              'arm-none-eabi-objdump -D $TARGET > build/rt-thread.asm\n'
+              'arm-none-eabi-objdump -D $TARGET > build/rt-thread.asm\n' + \
+              'python3 post_build.py $TARGET\n'
