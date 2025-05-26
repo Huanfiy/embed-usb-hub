@@ -64,11 +64,23 @@ cmd_build() {
     export RTT_EXEC_PATH
     info_msg "工具链路径: $RTT_EXEC_PATH"
 
-    build_output=$(bear --output .vscode/compile_commands.json -- scons -j16 2>&1)
+    build_output=$(bear --output compile_commands.json -- scons -j16 2>&1)
     build_result=$?
 
     # 输出构建日志
     echo "$build_output"
+
+    # 检查生成的 compile_commands.json 是否有内容
+    if [ -f "compile_commands.json" ] && grep -q '"output"' "compile_commands.json"; then
+        # 有实际编译命令
+        mkdir -p .vscode
+        mv compile_commands.json .vscode/
+        info_msg "检测到编译活动，compile_commands.json 已更新"
+    else
+        # 没有实际编译命令
+        [ -f "compile_commands.json" ] && rm -f compile_commands.json
+        info_msg "无编译活动，保持现有的 compile_commands.json"
+    fi
 
     # 检查构建结果和输出中是否包含错误信息
     if [ $build_result -eq 0 ] && ! echo "$build_output" | grep -q "Error:"; then

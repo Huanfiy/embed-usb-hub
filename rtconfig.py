@@ -86,6 +86,7 @@ LFLAGS = [
     '-Wl,--gc-sections',
     '-Wl,-Map=build/output.map',
     '-Wl,--no-warn-rwx-segments',
+    # '-Wl,--emit-relocs',
     '-mcpu=cortex-m4',
     '-mthumb',
     '-mfloat-abi=hard',
@@ -96,12 +97,11 @@ LFLAGS = [
 # 如果设置了 DEBUG 环境变量, 则使用调试模式，可以通过脚本设置
 if os.getenv('DEBUG'):
     CFLAGS.append('-DDEBUG')              # 调试模式宏
-    CFLAGS.append('-DUSE_FULL_ASSERT')    # 启用完整断言检查
-    CFLAGS.append('-DRT_DEBUG')           # RT-Thread 调试模式
     CFLAGS.append('-g')
     CFLAGS.append('-O0')
     print('debug mode')
 else:
+    # CFLAGS.append('-g')
     CFLAGS.append('-O2')
     CFLAGS.append('-DNDEBUG')             # 发布模式宏
     print('release mode')

@@ -13,7 +13,7 @@ except Exception as e:
     print(RTT_ROOT)
     sys.exit(-1)
 
-TARGET = 'rt-thread.elf'
+TARGET = 'build/rt-thread.elf'
 
 DefaultEnvironment(tools=[])
 env = Environment(tools = ["default", "gcc"],
