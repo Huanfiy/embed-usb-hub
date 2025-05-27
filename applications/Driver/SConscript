@@ -5,7 +5,7 @@ cwd     = GetCurrentDir()
 CPPPATH = [cwd, os.path.join(cwd, 'inc')]
 src = Glob('*.c')
 
-group = DefineGroup('HW', src, depend = [''], CPPPATH = CPPPATH)
+group = DefineGroup('Driver', src, depend = [''], CPPPATH = CPPPATH)
 
 list = os.listdir(cwd)
 for item in list:
